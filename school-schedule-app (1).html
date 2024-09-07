@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horarios del Centro Educativo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Horarios del Centro Educativo</h1>
+        <select id="teacherSelect">
+            <option value="">Selecciona un profesor</option>
+            <option value="ISABEL">ISABEL</option>
+            <option value="LUIS">LUIS</option>
+            <option value="SILVIA">SILVIA</option>
+            <option value="INMA">INMA</option>
+            <option value="ANTONIO">ANTONIO</option>
+        </select>
+        <div id="scheduleContainer"></div>
+    </div>
+
+    <script>
+        const schedules = {
+            ISABEL: {
+                LUNES: [
+                    "ESO NIVEL I LENGUA AULA 2 DE 16 A 18",
+                    "ESO NIVEL II LENGUA AULA 2 DE 18 A 20"
+                ],
+                MARTES: [
+                    "ITINERANCIA A VALDEPEÑAS 9 A 9.30",
+                    "ESO NIVEL II LENGUA VALDEP. AULA 1 DE 9.30 A 11.30",
+                    "FUNCIÓN DIRECTIVA AULA USOS MÚLTIPLES 11.30 A 13.30",
+                    "ITINERANCIA 13.30 A 14 A LV"
+                ],
+                MIÉRCOLES: [
+                    "FD 9 A 9.30",
+                    "ESO NIVEL I LENGUA AULA 2 DE 9.30 A 11.30",
+                    "COORD. PRL. 11.30 A 12.30",
+                    "FUNCIÓN DIRECTIVA 12.30-13.30",
+                    "ITINERANCIA 13.30 A 14"
+                ],
+                JUEVES: [
+                    "ITINERANCIA A VALDEPEÑAS 9 A 9.30",
+                    "HVS VALDEP AULA HVS 9.30 A 10.30",
+                    "CULTURA TEATRO - TIC AULA HVS 10.30 A 11.30",
+                    "TUTORÍA ESO 11.30 A 13.30",
+                    "ITINERANCIA 13.30 A 14"
+                ],
+                VIERNES: [
+                    "FD 9 A 9:30",
+                    "ESO NIVEL II LENGUA AULA 2 9.30 A 11.30",
+                    "ITINERANCIA 11.30-12.00 A LV",
+                    "FD 12.00 A 13.30 LV",
+                    "ITINERANCIA 13.30 A 14"
+                ]
+            },
+            LUIS: {
+                LUNES: [
+                    "FORMACIÓN BASE. LOS VILLARES AULA 2 16:00-17:30",
+                    "TIC AVANZADO AULA 3 17:30-19:00",
+                    "PAU PORTUGUÉS 19:00-21:00"
+                ],
+                MARTES: [
+                    "FORMACIÓN BASE. VALDEPEÑAS PLANTA BAJA 16:00-17:30",
+                    "INGLÉS PLANTA BAJA 17:30-19:00"
+                ],
+                MIÉRCOLES: [
+                    "INFORMÁTICA LOS VILLARES BÁSICO GRUPO 1 AULA 3 09:00-10:30",
+                    "INFORMÁTICA LOS VILLARES BÁSICO GRUPO 2 AULA 3 10:30-12:00",
+                    "RADIO AULA 9 12:00-13:30"
+                ],
+                JUEVES: [
+                    "FORMACIÓN BASE VALDEPEÑAS PLANTA BAJA 16:00-17:00",
+                    "INGLÉS PLANTA BAJA 17:30-19:00"
+                ],
+                VIERNES: [
+                    "INFORMÁTICA LOS VILLARES AVANZADO AULA 3 09:00-10:30",
+                    "RADIO AULA 9 10.30-11:30",
+                    "TDE-COMPDIG 11:30-13:30"
+                ]
+            },
+            SILVIA: {
+                LUNES: [
+                    "ITINERANCIA A VALDEPEÑAS 9 A 9.30",
+                    "ESO NII INGLÉS VALDEPEÑAS 9: 30 - 11:30",
+                    "ITINERANCIA A LOS VILLARES 11:30 - 12:00",
+                    "ESO NII INGLÉS AULA 2 12:00-14:00"
+                ],
+                MARTES: [
+                    "UBI MAÑANA AULA 3 9:00 - 10:30",
+                    "HVS 10:30-11:30",
+                    "ESO NI INGLÉS AULA 2 11:30-13:30"
+                ],
+                MIÉRCOLES: [
+                    "ESO NI INGLÉS AULA 2 16:00- 17:30",
+                    "UBI TARDE AULA 3 17:30-19:00",
+                    "ESO NII INGLÉS AULA 3 19:00 - 21:00"
+                ],
+                JUEVES: [
+                    "FB AULA 8 16: 00 - 17:30",
+                    "UBI TARDE AULA 3 17:30-19:00",
+                    "PAU GEOGRAFÍA AULA 3 19:00 - 20:30"
+                ],
+                VIERNES: [
+                    "UBI MAÑANA AULA 3 9:00 - 10:30",
+                    "HVS 10:30-11:30",
+                    "TUTORÍA ESO 11.30 A 13.30"
+                ]
+            },
+            INMA: {
+                LUNES: [
+                    "HVS VILLARES AULA HVS 9 A 10",
+                    "ESPAÑOL AULA 2 10 A 11:30",
+                    "ESO NIVEL II SOCIALES VILLARES. AULA 2 DE 11.30 A 13.30",
+                    "ITINERANCIA A VALDEPEÑAS 13.30 A 14.00"
+                ],
+                MARTES: [
+                    "ITINERANCIA A VALDEPEÑAS 9. A 9.30",
+                    "HVS VALDEPEÑAS AULA HVS 9.30 A 10.30",
+                    "COORD. IGUALDAD. 10.30 A 11.30",
+                    "ESO NIVEL II SOCIALES VALDEPEÑAS. AULA DE 11.30 A 13.30",
+                    "ITINERANCIA A VALDEPEÑAS 13.30 A 14.00"
+                ],
+                MIÉRCOLES: [
+                    "ESO NIVEL I SOCIALES VILLARES. AULA 2 DE 16 A 17.30",
+                    "HVS VILLARES AULA HVS DE 17.30 A 18.30",
+                    "ESO NIVEL II SOCIALES VILLARES. AULA 2 DE 18.30 A 20.30",
+                    "COORD. IGUALDAD. 20.30 A 21.00"
+                ],
+                JUEVES: [
+                    "FORMACIÓN BASE. LOS VILLARES AULA 2 16:00-17:30",
+                    "HVS VILLARES AULA HVS DE 17.30 A 18.30",
+                    "PAU LENGUA AULA 3 18:30-19:30",
+                    "PAU COMENTARIO DE TEXTO AULA 3 19:30-21:00"
+                ],
+                VIERNES: [
+                    "HVS VILLARES AULA HVS 9 A 10",
+                    "ESO NIVEL I SOCIALES VILLARES. AULA 2 DE 10.30 A 11.30",
+                    "TUTORÍA ESO 11.30 A 13.30",
+                    "ITINERANCIA VALDEPEÑAS 13.30 A 14.00"
+                ]
+            },
+            ANTONIO: {
+                LUNES: [
+                    "FB1 Valdep 16-17:30",
+                    "Tic Valdep 17:30 - 19",
+                    "Itinerancia 19-21"
+                ],
+                MARTES: [
+                    "TEATRO (VILLARES) 16-17:30",
+                    "Español para extranjeros 17:30- 18:30",
+                    "CIENT-TEC NII 18:30-20:30",
+                    "Itinerancia 20:30-21"
+                ],
+                MIÉRCOLES: [
+                    "CIENT-TEC NII VALDEPEÑAS 9-11",
+                    "Itinerancia 11-11:30",
+                    "CIENT-TEC NI VILLARES (aula 2) 11:30-13:30",
+                    "Itinerancia 13-14"
+                ],
+                JUEVES: [
+                    "CIENT-TEC NI VILLARES (aula 2) 16-17:30",
+                    "Español para extranjeros 17:30- 18:30",
+                    "PAU Hª GENERAL Y DEL ARTE Aula 3"
+                ],
+                VIERNES: [
+                    "CIENT-TEC NII 9-11",
+                    "Tutoría 11-13",
+                    "Itinerancia 13:30-14"
+                ]
+            }
+        };
+
+        function displaySchedule(teacher) {
+            const container = document.getElementById('scheduleContainer');
+            container.innerHTML = '';
+
+            if (teacher && schedules[teacher]) {
+                const table = document.createElement('table');
+                const headerRow = table.insertRow();
+                ['Día', 'Horario'].forEach(text => {
+                    const th = document.createElement('th');
+                    th.textContent = text;
+                    headerRow.appendChild(th);
+                });
+
+                Object.entries(schedules[teacher]).forEach(([day, classes]) => {
+                    const row = table.insertRow();
+                    const dayCell = row.insertCell();
+                    dayCell.textContent = day;
+                    const classesCell = row.insertCell();
+                    classesCell.innerHTML = classes.join('<br>');
+                });
+
+                container.appendChild(table);
+            }
+        }
+
+        document.getElementById('teacherSelect').addEventListener('change', function() {
+            displaySchedule(this.value);
+        });
+    </script>
+</body>
+</html>
